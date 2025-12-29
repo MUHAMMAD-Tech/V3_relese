@@ -23,6 +23,7 @@ export interface TokenWhitelist {
   name: string;
   coingecko_id: string;
   logo_url: string | null;
+  market_cap_rank: number;
   created_at: string;
 }
 

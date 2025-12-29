@@ -126,7 +126,7 @@ export async function getAllTokens(): Promise<TokenWhitelist[]> {
   const { data, error } = await supabase
     .from('token_whitelist')
     .select('*')
-    .order('symbol', { ascending: true });
+    .order('market_cap_rank', { ascending: true });
 
   if (error) {
     console.error('Error fetching tokens:', error);
