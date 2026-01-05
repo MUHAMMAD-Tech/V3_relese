@@ -21,15 +21,22 @@ LETHEX is a digital asset fund viewer and manual management system designed for 
 - Zustand (global state management)
 - Framer Motion (animations)
 - i18n system (JSON-based localization)
+- IndexedDB (local price caching and offline persistence)
 
 ### 2.2 Backend Stack
 - Node.js + Express\n- SQLite (single-file database)
 - REST API architecture
 - Token registry system
 \n### 2.3 External APIs
-- CoinGecko public API
-- Price refresh interval: 1 second
+- CoinGecko public API\n- Price refresh interval: 1 second
 - Backend caching with fail-safe mechanism
+
+### 2.4 Local Storage Architecture
+- IndexedDB for structured data storage
+- Stores: holders list, transaction history, asset balances, price cache
+- Price updates propagate to all open pages via BroadcastChannel API
+- Automatic sync on login/page load
+- Offline-first approach with background sync
 
 ## 3. Access Control System
 
@@ -37,8 +44,7 @@ LETHEX is a digital asset fund viewer and manual management system designed for 
 - Default admin access code: Muso2909 (temporary, first-time use only)
 - Single unified login input for both admin and holders
 - No separate /admin route
-
-### 3.2 Access Code Logic
+\n### 3.2 Access Code Logic
 - Admin access code checked first
 - If match → Admin Panel\n- If holder code match → Holder Dashboard
 - If no match → 'Invalid access code' error
@@ -98,8 +104,7 @@ LETHEX is a digital asset fund viewer and manual management system designed for 
 22. UNI – Uniswap
 23. ETC – Ethereum Classic
 24. XMR – Monero
-25. OKB – OKB
-26. APT – Aptos
+25. OKB – OKB\n26. APT – Aptos
 27. HBAR – Hedera
 28. FIL – Filecoin\n29. ARB – Arbitrum
 30. VET – VeChain
@@ -135,7 +140,8 @@ LETHEX is a digital asset fund viewer and manual management system designed for 
 - Fetch tokens ONLY from backend (/api/tokens)
 - Store tokens in global state
 - Modal-based selection interface
-- Fixed header: 'Select Asset'\n- Sticky search input at top
+- Fixed header: 'Select Asset'
+- Sticky search input at top
 - Scrollable list (max-height: 80vh)
 - Visible Close (X) button
 - Each token row displays:
@@ -154,9 +160,9 @@ LETHEX is a digital asset fund viewer and manual management system designed for 
 
 ### 5.1 Supported Languages
 - English (EN) — default
-- Uzbek (UZ)\n- Russian (RU)
-\n### 5.2 Implementation
-- JSON-based i18n system
+- Uzbek (UZ)
+- Russian (RU)
+\n### 5.2 Implementation\n- JSON-based i18n system
 - Localization files:\n  - /locales/en.json
   - /locales/uz.json
   - /locales/ru.json
@@ -171,8 +177,7 @@ LETHEX is a digital asset fund viewer and manual management system designed for 
 - Save selected language in localStorage
 - Refresh MUST NOT reset language
 - Language persists across sessions
-
-## 6. Theme System
+\n## 6. Theme System
 
 ### 6.1 Available Themes
 - Dark (default)
@@ -181,8 +186,7 @@ LETHEX is a digital asset fund viewer and manual management system designed for 
 - Tailwind class-based theming
 - Apply theme class on <html> or <body>
 - Entire app switches theme
-- No mixed colors
-- Smooth transition animations
+- No mixed colors\n- Smooth transition animations
 
 ### 6.3 Theme Toggle UI
 - Toggle button with Sun/Moon icon
@@ -225,10 +229,12 @@ LETHEX is a digital asset fund viewer and manual management system designed for 
 - View complete transaction history (see Section 13)
 - View commission summary (see Section 12)
 \n### 7.6 Active Assets (Enhanced)
-- View aggregated balances across all holders\n- Total USD & KGS value display
+- View aggregated balances across all holders
+- Total USD & KGS value display
 - Token-wise totals (BTC, ETH, USDT, etc)\n- **NEW: Visual portfolio composition graphs** (see Section 18)
 - **NEW: Asset-to-holder breakdown view** (see Section 18)
-- **NEW: CSV export functionality** (see Section 18)\n
+- **NEW: CSV export functionality** (see Section 18)
+
 ## 8. Holder Dashboard Features
 
 ### 8.1 Portfolio View
@@ -251,13 +257,13 @@ LETHEX is a digital asset fund viewer and manual management system designed for 
   - Requested amount must not exceed holder balance
   - Insufficient balance blocks transaction
 \n### 9.2 Swap Calculation
-- Fee = amount × 0.01\n- Net = amount - Fee
+- Fee = amount × 0.01
+- Net = amount - Fee
 - Received = Net ÷ executionPrice
 \n### 9.3 Swap UI
 - Clean numeric amount input field
 - Quick percentage buttons: 25% / 50% / 75% / 100%
-- Live preview display:\n  - Transaction fee
-  - Net amount after fee
+- Live preview display:\n  - Transaction fee\n  - Net amount after fee
   - Estimated tokens received
 \n### 9.4 Swap Approval Flow
 - Holder submits swap request
@@ -283,8 +289,7 @@ LETHEX is a digital asset fund viewer and manual management system designed for 
 - History record created after acknowledgment
 
 ## 12. Commission System
-
-### 12.1 Fee Collection
+\n### 12.1 Fee Collection
 - 1% fee collected on each swap transaction
 - Fees stored per transaction in database
 \n### 12.2 Commission Reporting (Admin Only)
@@ -295,26 +300,26 @@ LETHEX is a digital asset fund viewer and manual management system designed for 
 
 **Response Structure:**
 ```json
-{
-  'totalCommission': number (USDT),
-  'breakdown': {
-    'swap': number,
-    'buy': number,
-    'sell': number\n  },
-  'list': [
+{\n  \"totalCommission\": number (USDT),
+  \"breakdown\": {
+    \"swap\": number,
+    \"buy\": number,
+    \"sell\": number\n  },
+  \"list\": [
     {
-      'transactionId': string,
-      'holderName': string,\n      'type': 'swap' | 'buy' | 'sell',
-      'asset': string,
-      'feePercent': number,
-      'feeAmount': number,
-      'createdAt': timestamp
+      \"transactionId\": string,
+      \"holderName\": string,
+      \"type\": \"swap\" | \"buy\" | \"sell\",
+      \"asset\": string,
+      \"feePercent\": number,
+      \"feeAmount\": number,
+      \"createdAt\": timestamp
     }
   ]
 }
 ```
-
-#### 12.2.2 Frontend Implementation\n\n**Page Structure:**
+\n#### 12.2.2 Frontend Implementation
+\n**Page Structure:**
 \n**Top Summary Section:**
 - Total commissions collected (USDT)
 - Breakdown by transaction type:\n  - Swap fees\n  - Buy fees
@@ -353,14 +358,14 @@ LETHEX is a digital asset fund viewer and manual management system designed for 
 - toAsset (nullable for buy/sell)
 - amountFrom
 - amountTo\n- feePercent
-- feeAmount
-- priceUsed (execution price)
+- feeAmount\n- priceUsed (execution price)
 - status
 - createdAt (requested timestamp)
 - approvedAt (approved timestamp)
 \n### 13.3 Backend API
 \n**GET /api/history**
-- Admin → returns ALL history\n- Holder → returns ONLY own history
+- Admin → returns ALL history
+- Holder → returns ONLY own history
 \n**GET /api/history/:id**\n- Returns full transaction details
 \n### 13.4 History Page UI (Admin)\n
 **Search Functionality:**
@@ -368,8 +373,7 @@ LETHEX is a digital asset fund viewer and manual management system designed for 
 - Search by:\n  - Holder name
   - Transaction ID
 \n**List/Table Display:**
-- Date
-- Holder name
+- Date\n- Holder name
 - Transaction type
 - Assets (FROM → TO)
 - Amount
@@ -469,7 +473,8 @@ LETHEX is a digital asset fund viewer and manual management system designed for 
 - Clear currency indicators (USDT/KGS)
 - Empty states show meaningful messages:\n  - 'No transactions yet' (History)
   - 'No commissions collected yet' (Commissions)
-\n## 16. Development Standards
+
+## 16. Development Standards
 
 ### 16.1 Code Quality
 - Brand-new codebase from scratch
@@ -492,11 +497,16 @@ LETHEX is a digital asset fund viewer and manual management system designed for 
 - Commissions page functionality testing
 - Transaction details modal testing
 - Active Assets enhanced features testing (graphs, breakdown, CSV export)
+- Local storage sync testing
+- Price propagation across tabs testing
+- Offline functionality testing
 
 ### 16.3 Persistence Testing
 - Language persists after refresh
 - Theme persists after refresh
 - All settings persist across sessions
+- Local price cache persists across sessions
+- Holder data syncs correctly on login
 \n## 17. Final Requirements Summary
 
 ### 17.1 Core Features
@@ -509,6 +519,8 @@ LETHEX is a digital asset fund viewer and manual management system designed for 
 - Fully functional Commissions page (admin only)
 - Transaction details view working correctly
 - Enhanced Active Assets with visual insights, breakdown, and export
+- Local price caching with real-time sync across tabs
+- No price reloading on navigation or page refresh
 
 ### 17.2 Quality Standards
 - Works on mobile & desktop
@@ -522,7 +534,10 @@ LETHEX is a digital asset fund viewer and manual management system designed for 
 - Proper empty states with meaningful messages
 - Charts and graphs perform smoothly on mobile
 - No UI blocking or freezing
-\n## 18. Active Assets Enhanced Features (Admin Only)
+- Instant price updates without page reload
+- Seamless navigation without data loss
+
+## 18. Active Assets Enhanced Features (Admin Only)
 
 ### 18.1 Overview
 The Active Assets section displays aggregated portfolio data across all holders. This section is enhanced with three advanced features:
@@ -622,23 +637,19 @@ When exporting from asset detail modal:
 **GET /api/active-assets**
 \n**Response Structure:**
 ```json
-{\n  'totalUsd': number,
-  'totalKgs': number,
-  'assets': [
-    {
-      'symbol': string,
-      'name': string,
-      'iconUrl': string,
-      'totalAmount': number,
-      'priceUsd': number,
-      'totalUsdValue': number,
-      'totalKgsValue': number,\n      'holders': [
+{\n  \"totalUsd\": number,
+  \"totalKgs\": number,\n  \"assets\": [
+    {\n      \"symbol\": string,
+      \"name\": string,
+      \"iconUrl\": string,
+      \"totalAmount\": number,\n      \"priceUsd\": number,\n      \"totalUsdValue\": number,
+      \"totalKgsValue\": number,
+      \"holders\": [
         {
-          'holderId': string,
-          'holderName': string,
-          'holderAccessCode': string,
-          'amount': number,
-          'usdValue': number\n        }
+          \"holderId\": string,
+          \"holderName\": string,
+          \"holderAccessCode\": string,\n          \"amount\": number,
+          \"usdValue\": number\n        }
       ]\n    }
   ]\n}
 ```
@@ -647,8 +658,7 @@ When exporting from asset detail modal:
 - Cache result for 5-10 seconds
 - Recalculate on holder balance changes
 - Ensure data consistency with UI
-
-#### 18.5.3 CSV Export Endpoint
+\n#### 18.5.3 CSV Export Endpoint
 **GET /api/active-assets/export**
 
 **Query Parameters:**
@@ -686,7 +696,8 @@ When exporting from asset detail modal:
 - Clean sans-serif font (Inter or similar)
 - Clear hierarchy in modal headers
 - Readable font sizes on mobile
-\n#### 18.7.3 Spacing & Layout
+
+#### 18.7.3 Spacing & Layout
 - Consistent padding and margins
 - Proper card elevation
 - Clear visual separation between sections
@@ -701,3 +712,201 @@ When exporting from asset detail modal:
 - Smooth performance on mobile and desktop
 - No functionality removed from existing Active Assets layout
 - All enhancements work seamlessly with existing features
+
+## 19. Local Storage & Price Caching System
+
+### 19.1 Overview
+Implement a robust local storage system using IndexedDB to cache cryptocurrency prices, holder data, and other critical information. This eliminates slow price reloading on navigation and ensures seamless user experience across page transitions.
+
+### 19.2 IndexedDB Structure
+
+#### 19.2.1 Database Name\n- lethex_local_db
+
+#### 19.2.2 Object Stores
+\n**Store 1: prices**
+- Key: symbol (string)
+- Fields:\n  - symbol: string
+  - priceUsd: number
+  - priceKgs: number\n  - lastUpdated: timestamp
+\n**Store 2: holders**
+- Key: holderId (string)
+- Fields:
+  - holderId: string
+  - holderName: string
+  - holderAccessCode: string
+  - assets: array of {symbol, amount}\n  - lastSynced: timestamp
+
+**Store 3: transactions**
+- Key: transactionId (string)
+- Fields:\n  - All transaction history fields (see Section 13.2)
+  - lastSynced: timestamp
+
+**Store 4: metadata**
+- Key: key (string)
+- Fields:
+  - key: string (e.g., last_sync_time, app_version)
+  - value: any\n
+### 19.3 Price Update Strategy
+
+#### 19.3.1 Background Price Sync
+- Continuous price updates every 1 second (as specified)\n- Updates stored in IndexedDB immediately
+- No UI blocking during updates
+
+#### 19.3.2 Price Propagation Across Tabs
+- Use BroadcastChannel API for cross-tab communication
+- Channel name: lethex_price_updates
+- When prices update in one tab:\n  1. Save to IndexedDB
+  2. Broadcast update event to all open tabs
+  3. All tabs receive and apply updates instantly
+
+#### 19.3.3 Price Loading on Page Load
+- On app initialization:\n  1. Load cached prices from IndexedDB immediately
+  2. Display cached prices instantly (no loading delay)
+  3. Start background sync in parallel
+  4. Update UI smoothly when fresh prices arrive
+
+#### 19.3.4 Offline Handling
+- If network unavailable:\n  - Display last cached prices
+  - Show offline indicator
+  - Continue using cached data
+- When network restored:
+  - Resume background sync automatically
+  - Update prices seamlessly
+
+### 19.4 Holder Data Sync
+
+#### 19.4.1 Initial Sync on Login
+- On successful login:
+  1. Fetch holder data from backend
+  2. Store in IndexedDB
+  3. Mark sync timestamp
+\n#### 19.4.2 Incremental Sync
+- Check for updates every 30 seconds
+- Only fetch changed data (delta sync)
+- Update IndexedDB incrementally
+\n#### 19.4.3 Manual Refresh
+- Pull-to-refresh gesture on mobile
+- Refresh button on desktop
+- Force full sync from backend
+
+### 19.5 Navigation Optimization
+
+#### 19.5.1 No Price Reloading
+- When navigating between pages:
+  - Prices loaded from IndexedDB instantly
+  - No API calls on navigation
+  - No loading spinners for prices
+  - Smooth, instant transitions
+
+#### 19.5.2 State Persistence
+- Current page state saved in sessionStorage
+- Scroll position preserved
+- Form inputs retained
+- No data loss on navigation
+
+### 19.6 Data Consistency Rules
+
+#### 19.6.1 Cache Invalidation
+- Price cache: never expires (continuously updated)
+- Holder data cache: 5 minutes TTL
+- Transaction history cache: 10 minutes TTL
+- Force refresh on critical actions (approve transaction, change balance)
+
+#### 19.6.2 Conflict Resolution
+- Backend data always takes precedence
+- On conflict: overwrite local cache with backend data
+- Log conflicts for debugging
+
+#### 19.6.3 Data Integrity
+- Validate data before storing in IndexedDB
+- Reject malformed or incomplete data
+- Maintain referential integrity between stores
+
+### 19.7 Performance Requirements
+
+#### 19.7.1 Speed Benchmarks
+- Price load from cache: < 50ms
+- Holder data load from cache: < 100ms
+- IndexedDB write operation: < 20ms
+- Cross-tab price propagation: < 100ms\n
+#### 19.7.2 Storage Limits
+- Maximum IndexedDB size: 50MB\n- Automatic cleanup of old transaction records (keep last 1000)\n- Price history not stored (only current prices)
+
+#### 19.7.3 Memory Management
+- Lazy load transaction details
+- Paginate large datasets
+- Clear unused data from memory
+\n### 19.8 Implementation Details
+
+#### 19.8.1 IndexedDB Wrapper
+- Create abstraction layer for IndexedDB operations\n- Promise-based API\n- Error handling and retry logic
+- Transaction management
+
+#### 19.8.2 BroadcastChannel Setup
+```javascript
+const priceChannel = new BroadcastChannel('lethex_price_updates');
+\n// Send price update
+priceChannel.postMessage({
+  type: 'PRICE_UPDATE',
+  data: { symbol: 'BTC', priceUsd: 45000, priceKgs: 3900000 }
+});
+\n// Receive price update
+priceChannel.onmessage = (event) => {
+  if (event.data.type === 'PRICE_UPDATE') {\n    updatePriceInUI(event.data.data);
+  }
+};
+```
+
+#### 19.8.3 Price Sync Service
+- Singleton service running in background
+- Manages WebSocket or polling connection
+- Writes to IndexedDB on every update
+- Broadcasts to all tabs
+- Handles reconnection logic
+
+### 19.9 Error Handling
+
+#### 19.9.1 IndexedDB Errors
+- QuotaExceededError: clear old data, retry
+- VersionError: migrate database schema
+- Generic errors: fallback to API calls
+
+#### 19.9.2 Network Errors\n- Display cached data with offline indicator
+- Queue failed requests for retry
+- Auto-retry with exponential backoff
+
+#### 19.9.3 Data Corruption
+- Detect corrupted data on read
+- Clear corrupted store\n- Re-fetch from backend\n- Log error for debugging
+
+### 19.10 Testing Requirements
+
+#### 19.10.1 Functional Tests
+- Price caching and retrieval
+- Cross-tab price propagation
+- Offline mode functionality
+- Data sync after network restoration
+- Navigation without price reload
+
+#### 19.10.2 Performance Tests
+- Measure cache read/write speed
+- Test with 1000+ transactions
+- Verify no memory leaks
+- Check smooth scrolling with cached data
+
+#### 19.10.3 Edge Cases
+- Multiple tabs open simultaneously
+- Rapid navigation between pages
+- Network switching (WiFi ↔ Mobile)
+- Browser storage quota exceeded
+- IndexedDB not supported (fallback to API)
+
+### 19.11 Final Result\n
+**User Experience:**
+- Instant price display on every page
+- No loading spinners for prices
+- Smooth navigation without delays
+- Works offline with cached data
+- Real-time updates across all open tabs
+- No price reloading on page refresh
+- Professional, seamless experience

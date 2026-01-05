@@ -3,6 +3,7 @@ import { create } from 'zustand';
 import type { TokenWhitelist, Holder, PriceCache } from '@/types/types';
 import { getAllTokens } from '@/db/api';
 import { priceService } from '@/services/priceService';
+import * as localStorageService from '@/services/localStorageService';
 
 interface AppState {
   // Token data
@@ -21,21 +22,30 @@ interface AppState {
 }
 
 export const useAppStore = create<AppState>((set, get) => ({
-  // Initial state
-  tokens: [],
-  prices: {},
+  // Initial state - narxlarni localStorage-dan yuklash
+  tokens: localStorageService.loadTokens() || [],
+  prices: localStorageService.loadPrices() || {},
   pricesLoading: false,
-  currentHolder: null,
+  currentHolder: localStorageService.loadCurrentHolder(),
 
   // Load all tokens from database
   loadTokens: async () => {
     try {
+      // Avval localStorage-dan yuklash
+      const cachedTokens = localStorageService.loadTokens();
+      if (cachedTokens && cachedTokens.length > 0) {
+        set({ tokens: cachedTokens });
+        console.log('✅ Tokenlar localStorage-dan yuklandi:', cachedTokens.length);
+      }
+      
+      // Keyin database-dan yangilash
       const tokens = await getAllTokens();
       set({ tokens });
-      console.log('✅ Tokenlar yuklandi:', tokens.length);
+      localStorageService.saveTokens(tokens);
+      console.log('✅ Tokenlar database-dan yuklandi va saqlandi:', tokens.length);
     } catch (error) {
       console.error('❌ Tokenlarni yuklashda xatolik:', error);
-      set({ tokens: [] }); // Set empty array on error
+      set({ tokens: [] });
     }
   },
 
@@ -68,9 +78,12 @@ export const useAppStore = create<AppState>((set, get) => ({
         }
       }
 
+      // Narxlarni state va localStorage-ga saqlash
       set({ prices, pricesLoading: false });
+      localStorageService.savePrices(prices);
+      console.log('✅ Narxlar yangilandi va saqlandi');
     } catch (error) {
-      console.error('Error updating prices:', error);
+      console.error('❌ Narxlarni yangilashda xatolik:', error);
       set({ pricesLoading: false });
     }
   },
@@ -78,29 +91,17 @@ export const useAppStore = create<AppState>((set, get) => ({
   // Set current holder for holder dashboard
   setCurrentHolder: (holder: Holder | null) => {
     set({ currentHolder: holder });
-    // Store in sessionStorage for persistence
+    // Store in localStorage for persistence
     if (holder) {
-      sessionStorage.setItem('lethex_holder', JSON.stringify(holder));
+      localStorageService.saveCurrentHolder(holder);
     } else {
-      sessionStorage.removeItem('lethex_holder');
+      localStorageService.clearCurrentHolder();
     }
   },
 
   // Clear current holder (logout)
   clearCurrentHolder: () => {
     set({ currentHolder: null });
-    sessionStorage.removeItem('lethex_holder');
+    localStorageService.clearCurrentHolder();
   },
 }));
-
-// Initialize holder from sessionStorage on app load
-const storedHolder = sessionStorage.getItem('lethex_holder');
-if (storedHolder) {
-  try {
-    const holder = JSON.parse(storedHolder);
-    useAppStore.setState({ currentHolder: holder });
-  } catch (error) {
-    console.error('Error parsing stored holder:', error);
-    sessionStorage.removeItem('lethex_holder');
-  }
-}
