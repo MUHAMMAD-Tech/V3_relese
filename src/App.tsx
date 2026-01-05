@@ -16,10 +16,11 @@ const App: React.FC = () => {
     // Load tokens on app start
     loadTokens();
 
-    // Start price update interval (1 second as per requirements)
+    // Start price update interval (30 seconds for better performance)
+    // Note: 1 second was causing too many re-renders and UI interruptions
     const priceInterval = setInterval(() => {
       updatePrices();
-    }, 1000);
+    }, 30000); // 30 seconds
 
     // Initial price fetch
     updatePrices();

@@ -1,32 +1,35 @@
 // LETHEX Admin Dashboard Page
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Users, Wallet, Clock, DollarSign } from 'lucide-react';
-import { getAllHolders, getPendingTransactions, getCommissionSummary } from '@/db/api';
-import type { Holder, TransactionWithDetails } from '@/types/types';
+import { getAllHolders, getPendingTransactions, getCommissionSummary, getAllAssets } from '@/db/api';
+import type { Holder, TransactionWithDetails, Asset } from '@/types/types';
 
 export default function AdminDashboardPage() {
   const [loading, setLoading] = useState(true);
   const [holders, setHolders] = useState<Holder[]>([]);
   const [pendingTransactions, setPendingTransactions] = useState<TransactionWithDetails[]>([]);
   const [totalCommissions, setTotalCommissions] = useState(0);
+  const [assets, setAssets] = useState<Asset[]>([]);
 
   useEffect(() => {
     loadDashboardData();
   }, []);
 
-  const loadDashboardData = async () => {
+  const loadDashboardData = useCallback(async () => {
     setLoading(true);
     try {
-      const [holdersData, pendingData, commissionsData] = await Promise.all([
+      const [holdersData, pendingData, commissionsData, assetsData] = await Promise.all([
         getAllHolders(),
         getPendingTransactions(),
         getCommissionSummary(),
+        getAllAssets(),
       ]);
 
       setHolders(holdersData);
       setPendingTransactions(pendingData);
+      setAssets(assetsData);
 
       // Calculate total commissions
       if (commissionsData) {
@@ -34,34 +37,39 @@ export default function AdminDashboardPage() {
         setTotalCommissions(total);
       }
     } catch (error) {
-      console.error('Error loading dashboard data:', error);
+      console.error('❌ Dashboard yuklashda xatolik:', error);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  // Memoize active assets count (assets with amount > 0)
+  const activeAssetsCount = useMemo(() => {
+    return assets.filter(asset => parseFloat(asset.amount) > 0).length;
+  }, [assets]);
 
   const stats = [
     {
-      title: 'Total Holders',
+      title: 'Jami Holderlar',
       value: holders.length,
       icon: Users,
       color: 'text-primary',
     },
     {
-      title: 'Pending Approvals',
+      title: 'Kutilayotgan Tasdiqlar',
       value: pendingTransactions.length,
       icon: Clock,
       color: 'text-warning',
     },
     {
-      title: 'Total Commissions',
+      title: 'Jami Komissiyalar',
       value: `$${totalCommissions.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
       icon: DollarSign,
       color: 'text-success',
     },
     {
-      title: 'Active Assets',
-      value: '-',
+      title: 'Aktiv Aktivlar',
+      value: activeAssetsCount,
       icon: Wallet,
       color: 'text-primary',
     },

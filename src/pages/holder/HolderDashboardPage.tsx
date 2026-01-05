@@ -1,5 +1,5 @@
 // LETHEX Holder Dashboard Page
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Wallet, TrendingUp, Clock } from 'lucide-react';
@@ -12,8 +12,6 @@ export default function HolderDashboardPage() {
   const [loading, setLoading] = useState(true);
   const [assets, setAssets] = useState<AssetWithToken[]>([]);
   const [recentTransactions, setRecentTransactions] = useState<TransactionWithDetails[]>([]);
-  const [totalValueUSDT, setTotalValueUSDT] = useState(0);
-  const [totalValueKGS, setTotalValueKGS] = useState(0);
 
   useEffect(() => {
     if (currentHolder) {
@@ -21,14 +19,7 @@ export default function HolderDashboardPage() {
     }
   }, [currentHolder]);
 
-  useEffect(() => {
-    // Recalculate portfolio value when prices update
-    if (assets.length > 0 && Object.keys(prices).length > 0) {
-      calculatePortfolioValue();
-    }
-  }, [prices, assets]);
-
-  const loadDashboardData = async () => {
+  const loadDashboardData = useCallback(async () => {
     if (!currentHolder) {
       console.log('❌ currentHolder yo\'q');
       return;
@@ -57,47 +48,54 @@ export default function HolderDashboardPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentHolder]);
 
-  const calculatePortfolioValue = () => {
+  // Memoize portfolio value calculation
+  const { totalValueUSDT, totalValueKGS } = useMemo(() => {
     let totalUSDT = 0;
     let totalKGS = 0;
 
-    for (const asset of assets) {
-      const price = prices[asset.token_symbol.toLowerCase()];
-      if (price) {
-        const amount = parseFloat(asset.amount);
-        totalUSDT += amount * price.price_usdt;
-        totalKGS += amount * price.price_kgs;
+    if (assets.length > 0 && Object.keys(prices).length > 0) {
+      for (const asset of assets) {
+        const price = prices[asset.token_symbol.toLowerCase()];
+        if (price) {
+          const amount = parseFloat(asset.amount);
+          totalUSDT += amount * price.price_usdt;
+          totalKGS += amount * price.price_kgs;
+        }
       }
     }
 
-    setTotalValueUSDT(totalUSDT);
-    setTotalValueKGS(totalKGS);
-  };
+    return { totalValueUSDT: totalUSDT, totalValueKGS: totalKGS };
+  }, [assets, prices]);
+
+  // Memoize pending transactions count
+  const pendingCount = useMemo(() => {
+    return recentTransactions.filter(tx => tx.status === 'pending').length;
+  }, [recentTransactions]);
 
   const stats = [
     {
-      title: 'Total Assets',
+      title: 'Jami Aktivlar',
       value: assets.length,
       icon: Wallet,
       color: 'text-primary',
     },
     {
-      title: 'Portfolio Value (USDT)',
+      title: 'Portfolio Qiymati (USDT)',
       value: `$${totalValueUSDT.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
       icon: TrendingUp,
       color: 'text-success',
     },
     {
-      title: 'Portfolio Value (KGS)',
+      title: 'Portfolio Qiymati (KGS)',
       value: `${totalValueKGS.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} KGS`,
       icon: TrendingUp,
       color: 'text-success',
     },
     {
-      title: 'Pending Requests',
-      value: recentTransactions.filter(tx => tx.status === 'pending').length,
+      title: 'Kutilayotgan So\'rovlar',
+      value: pendingCount,
       icon: Clock,
       color: 'text-warning',
     },

@@ -403,6 +403,23 @@ export async function getAssetsByHolder(holderId: string): Promise<Asset[]> {
   return Array.isArray(data) ? data : [];
 }
 
+export async function getAllAssets(): Promise<Asset[]> {
+  console.log('🔍 getAllAssets called');
+  
+  const { data, error } = await supabase
+    .from('assets')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('❌ Barcha assetlarni olishda xatolik:', error);
+    return [];
+  }
+  
+  console.log(`✅ ${data?.length || 0} ta asset topildi`);
+  return Array.isArray(data) ? data : [];
+}
+
 export async function createAsset(assetData: AssetFormData): Promise<boolean> {
   const { error } = await supabase
     .from('assets')
