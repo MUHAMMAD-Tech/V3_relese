@@ -23,7 +23,7 @@ export function HolderLayout() {
   const location = useLocation();
   const navigate = useNavigate();
   const { currentHolder, clearCurrentHolder, setCurrentHolder } = useAppStore();
-  const { user, profile } = useAuth();
+  const { user, profile, signOut } = useAuth();
   const { t } = useI18n();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -74,10 +74,25 @@ export function HolderLayout() {
     { name: t('admin.history'), href: '/holder/history', icon: History },
   ];
 
-  const handleExit = () => {
-    clearCurrentHolder();
-    toast.success(t('auth.loginSuccess'));
-    navigate('/login');
+  const handleExit = async () => {
+    try {
+      console.log('🚪 Chiqish boshlandi...');
+      
+      // Clear holder data from app state
+      clearCurrentHolder();
+      
+      // Sign out from Supabase Auth
+      await signOut();
+      
+      console.log('✅ Chiqish muvaffaqiyatli');
+      toast.success('Tizimdan chiqdingiz');
+      
+      // Navigate to login
+      navigate('/login');
+    } catch (error) {
+      console.error('❌ Chiqishda xatolik:', error);
+      toast.error('Chiqishda xatolik yuz berdi');
+    }
   };
 
   const NavLinks = () => (

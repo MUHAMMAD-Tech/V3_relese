@@ -40,9 +40,19 @@ export function AdminLayout() {
   ];
 
   const handleLogout = async () => {
-    await signOut();
-    toast.success(t('auth.loginSuccess'));
-    navigate('/login');
+    try {
+      console.log('🚪 Admin chiqish boshlandi...');
+      
+      await signOut();
+      
+      console.log('✅ Admin chiqish muvaffaqiyatli');
+      toast.success('Tizimdan chiqdingiz');
+      
+      navigate('/login');
+    } catch (error) {
+      console.error('❌ Chiqishda xatolik:', error);
+      toast.error('Chiqishda xatolik yuz berdi');
+    }
   };
 
   const NavLinks = () => (
