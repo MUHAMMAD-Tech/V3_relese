@@ -74,6 +74,9 @@ export default function HolderDashboardPage() {
     return recentTransactions.filter(tx => tx.status === 'pending').length;
   }, [recentTransactions]);
 
+  // Check if prices are loaded
+  const pricesLoaded = Object.keys(prices).length > 0;
+
   const stats = [
     {
       title: 'Jami Aktivlar',
@@ -83,13 +86,17 @@ export default function HolderDashboardPage() {
     },
     {
       title: 'Portfolio Qiymati (USDT)',
-      value: `$${totalValueUSDT.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+      value: pricesLoaded 
+        ? `$${totalValueUSDT.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+        : 'Yuklanmoqda...',
       icon: TrendingUp,
       color: 'text-success',
     },
     {
       title: 'Portfolio Qiymati (KGS)',
-      value: `${totalValueKGS.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} KGS`,
+      value: pricesLoaded
+        ? `${totalValueKGS.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} KGS`
+        : 'Yuklanmoqda...',
       icon: TrendingUp,
       color: 'text-success',
     },

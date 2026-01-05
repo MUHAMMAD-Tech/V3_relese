@@ -63,6 +63,9 @@ export default function HolderPortfolioPage() {
     return tokens.find(t => t.symbol === symbol);
   };
 
+  // Check if prices are loaded
+  const pricesLoaded = Object.keys(prices).length > 0;
+
   if (!currentHolder) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -101,12 +104,23 @@ export default function HolderPortfolioPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-3xl xl:text-4xl font-bold text-primary">
-                  ${getTotalPortfolioValue().toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                </p>
-                <p className="text-sm text-muted-foreground mt-2">
-                  Real vaqtda yangilanadi
-                </p>
+                {pricesLoaded ? (
+                  <>
+                    <p className="text-3xl xl:text-4xl font-bold text-primary">
+                      ${getTotalPortfolioValue().toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-2">
+                      Real vaqtda yangilanadi
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <Skeleton className="h-10 w-48 bg-muted mb-2" />
+                    <p className="text-sm text-muted-foreground">
+                      Narxlar yuklanmoqda...
+                    </p>
+                  </>
+                )}
               </CardContent>
             </Card>
 
@@ -118,12 +132,23 @@ export default function HolderPortfolioPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-3xl xl:text-4xl font-bold text-foreground">
-                  {(getTotalPortfolioValue() * 87).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} сом
-                </p>
-                <p className="text-sm text-muted-foreground mt-2">
-                  1 USDT = 87 KGS
-                </p>
+                {pricesLoaded ? (
+                  <>
+                    <p className="text-3xl xl:text-4xl font-bold text-foreground">
+                      {(getTotalPortfolioValue() * 87).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} сом
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-2">
+                      1 USDT = 87 KGS
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <Skeleton className="h-10 w-48 bg-muted mb-2" />
+                    <p className="text-sm text-muted-foreground">
+                      Narxlar yuklanmoqda...
+                    </p>
+                  </>
+                )}
               </CardContent>
             </Card>
           </div>
@@ -183,7 +208,11 @@ export default function HolderPortfolioPage() {
                               {token?.name || asset.token_symbol}
                             </p>
                             <p className="text-xs text-muted-foreground mt-1">
-                              ${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} / {asset.token_symbol}
+                              {pricesLoaded ? (
+                                `$${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} / ${asset.token_symbol}`
+                              ) : (
+                                'Narx yuklanmoqda...'
+                              )}
                             </p>
                           </div>
                         </div>
@@ -195,12 +224,20 @@ export default function HolderPortfolioPage() {
                               maximumFractionDigits: (typeof asset.amount === 'string' ? parseFloat(asset.amount) : asset.amount) < 1 ? 8 : 2 
                             })} {asset.token_symbol}
                           </p>
-                          <p className="text-sm text-primary font-semibold">
-                            ${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {valueKGS.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} сом
-                          </p>
+                          {pricesLoaded ? (
+                            <>
+                              <p className="text-sm text-primary font-semibold">
+                                ${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                              </p>
+                              <p className="text-xs text-muted-foreground">
+                                {valueKGS.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} сом
+                              </p>
+                            </>
+                          ) : (
+                            <p className="text-xs text-muted-foreground">
+                              Narx yuklanmoqda...
+                            </p>
+                          )}
                         </div>
                       </div>
                     );
