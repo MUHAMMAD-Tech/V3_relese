@@ -29,8 +29,14 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   // Load all tokens from database
   loadTokens: async () => {
-    const tokens = await getAllTokens();
-    set({ tokens });
+    try {
+      const tokens = await getAllTokens();
+      set({ tokens });
+      console.log('✅ Tokenlar yuklandi:', tokens.length);
+    } catch (error) {
+      console.error('❌ Tokenlarni yuklashda xatolik:', error);
+      set({ tokens: [] }); // Set empty array on error
+    }
   },
 
   // Update prices from CoinGecko

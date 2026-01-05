@@ -13,17 +13,23 @@ const App: React.FC = () => {
   const { loadTokens, updatePrices } = useAppStore();
 
   useEffect(() => {
-    // Load tokens on app start
-    loadTokens();
+    // Load tokens on app start with error handling
+    loadTokens().catch(error => {
+      console.error('❌ Tokenlarni yuklashda xatolik:', error);
+    });
 
     // Start price update interval (30 seconds for better performance)
     // Note: 1 second was causing too many re-renders and UI interruptions
     const priceInterval = setInterval(() => {
-      updatePrices();
+      updatePrices().catch(error => {
+        console.error('❌ Narxlarni yangilashda xatolik:', error);
+      });
     }, 30000); // 30 seconds
 
-    // Initial price fetch
-    updatePrices();
+    // Initial price fetch with error handling
+    updatePrices().catch(error => {
+      console.error('❌ Dastlabki narxlarni olishda xatolik:', error);
+    });
 
     return () => clearInterval(priceInterval);
   }, [loadTokens, updatePrices]);
