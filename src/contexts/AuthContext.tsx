@@ -116,11 +116,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const updateRole = async (role: 'admin' | 'holder') => {
-    if (!user) {
-      throw new Error('No user logged in');
+    // Wait for user state to be available (max 5 seconds)
+    let attempts = 0;
+    const maxAttempts = 50; // 50 * 100ms = 5 seconds
+    
+    while (!user && attempts < maxAttempts) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+      attempts++;
     }
+    
+    if (!user) {
+      throw new Error('Foydalanuvchi tizimga kirmadi');
+    }
+    
+    console.log('🔄 Role yangilanmoqda:', role, 'User ID:', user.id);
     await updateProfileRole(user.id, role);
     await refreshProfile();
+    console.log('✅ Role yangilandi');
   };
 
   return (

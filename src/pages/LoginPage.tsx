@@ -36,37 +36,52 @@ export default function LoginPage() {
       console.log('Admin check result:', isAdmin);
 
       if (isAdmin) {
-        console.log('Logging in as admin...');
+        console.log('🔐 Admin login...');
         // Admin login - use Supabase Auth
         let authSuccess = false;
         
         // Try to sign in first
+        console.log('📝 Admin SignIn urinish...');
         const { error: signInError } = await signIn('admin', accessCode);
 
         if (signInError) {
-          console.log('SignIn error, trying SignUp:', signInError.message);
+          console.log('❌ Admin SignIn xatolik:', signInError.message);
+          console.log('📝 Admin SignUp urinish...');
           // If sign in fails, try to sign up (first time admin)
           const { error: signUpError } = await signUp('admin', accessCode);
           
           if (!signUpError) {
-            console.log('SignUp successful');
+            console.log('✅ Admin SignUp muvaffaqiyatli');
             authSuccess = true;
           } else {
-            console.error('SignUp error:', signUpError.message);
+            console.error('❌ Admin SignUp xatolik:', signUpError.message);
+            toast.error(`Admin ro'yxatdan o'tishda xatolik: ${signUpError.message}`);
+            setLoading(false);
+            return;
           }
         } else {
-          console.log('SignIn successful');
+          console.log('✅ Admin SignIn muvaffaqiyatli');
           authSuccess = true;
         }
 
         if (authSuccess) {
-          // Update role to admin
-          await updateRole('admin');
-          toast.success('Welcome, Admin!');
-          navigate('/admin/dashboard');
-          return;
+          console.log('🔄 Admin role yangilanmoqda...');
+          try {
+            // Update role to admin
+            await updateRole('admin');
+            console.log('✅ Admin role yangilandi');
+            
+            toast.success('Xush kelibsiz, Admin!');
+            navigate('/admin/dashboard');
+            return;
+          } catch (roleError) {
+            console.error('❌ Admin role yangilashda xatolik:', roleError);
+            toast.error('Admin role yangilashda xatolik yuz berdi');
+            setLoading(false);
+            return;
+          }
         } else {
-          toast.error('Admin authentication failed');
+          toast.error('Admin autentifikatsiya muvaffaqiyatsiz');
           setLoading(false);
           return;
         }
@@ -78,49 +93,68 @@ export default function LoginPage() {
       console.log('Holder found:', holder);
 
       if (holder) {
+        console.log('🔐 Holder topildi:', holder.name);
         // Holder login - authenticate with Supabase Auth
         // Use holder ID as username and access code as password
         let authSuccess = false;
         
         // Try to sign in first
+        console.log('📝 SignIn urinish...');
         const { error: signInError } = await signIn(holder.id, accessCode);
 
         if (signInError) {
-          console.log('Holder SignIn error, trying SignUp:', signInError.message);
+          console.log('❌ SignIn xatolik:', signInError.message);
+          console.log('📝 SignUp urinish...');
           // If sign in fails, try to sign up (first time holder)
           const { error: signUpError } = await signUp(holder.id, accessCode);
           
           if (!signUpError) {
-            console.log('Holder SignUp successful');
+            console.log('✅ SignUp muvaffaqiyatli');
             authSuccess = true;
           } else {
-            console.error('Holder SignUp error:', signUpError.message);
+            console.error('❌ SignUp xatolik:', signUpError.message);
+            toast.error(`Ro'yxatdan o'tishda xatolik: ${signUpError.message}`);
+            setLoading(false);
+            return;
           }
         } else {
-          console.log('Holder SignIn successful');
+          console.log('✅ SignIn muvaffaqiyatli');
           authSuccess = true;
         }
 
         if (authSuccess) {
-          // Update role to holder and store holder info
-          await updateRole('holder');
-          setCurrentHolder(holder);
-          toast.success(`Welcome, ${holder.name}!`);
-          navigate('/holder/dashboard');
-          return;
+          console.log('🔄 Role yangilanmoqda...');
+          try {
+            // Update role to holder and store holder info
+            await updateRole('holder');
+            console.log('✅ Role yangilandi');
+            
+            setCurrentHolder(holder);
+            console.log('✅ Holder saqlandi');
+            
+            toast.success(`Xush kelibsiz, ${holder.name}!`);
+            navigate('/holder/dashboard');
+            return;
+          } catch (roleError) {
+            console.error('❌ Role yangilashda xatolik:', roleError);
+            toast.error('Role yangilashda xatolik yuz berdi');
+            setLoading(false);
+            return;
+          }
         } else {
-          toast.error('Holder authentication failed');
+          toast.error('Autentifikatsiya muvaffaqiyatsiz');
           setLoading(false);
           return;
         }
       }
 
       // Step 3: Invalid access code
-      console.log('Access code not found');
-      toast.error('Invalid access code');
+      console.log('❌ Access code topilmadi');
+      toast.error('Noto\'g\'ri kirish kodi');
     } catch (error) {
-      console.error('Login error:', error);
-      toast.error('An error occurred during login');
+      console.error('❌ Login xatolik:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Noma\'lum xatolik';
+      toast.error(`Kirishda xatolik: ${errorMessage}`);
     } finally {
       setLoading(false);
     }
