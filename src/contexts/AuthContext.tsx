@@ -82,30 +82,42 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signIn = async (username: string, password: string) => {
     try {
       const email = `${username}@miaoda.com`;
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (error) throw error;
-      return { error: null };
+      
+      // Update user state immediately
+      if (data.session?.user) {
+        setUser(data.session.user);
+      }
+      
+      return { error: null, user: data.session?.user };
     } catch (error) {
-      return { error: error as Error };
+      return { error: error as Error, user: null };
     }
   };
 
   const signUp = async (username: string, password: string) => {
     try {
       const email = `${username}@miaoda.com`;
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
       });
 
       if (error) throw error;
-      return { error: null };
+      
+      // Update user state immediately
+      if (data.session?.user) {
+        setUser(data.session.user);
+      }
+      
+      return { error: null, user: data.session?.user };
     } catch (error) {
-      return { error: error as Error };
+      return { error: error as Error, user: null };
     }
   };
 
@@ -116,21 +128,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const updateRole = async (role: 'admin' | 'holder') => {
-    // Wait for user state to be available (max 5 seconds)
-    let attempts = 0;
-    const maxAttempts = 50; // 50 * 100ms = 5 seconds
+    // Get current session to ensure we have the latest user
+    const { data: { session } } = await supabase.auth.getSession();
     
-    while (!user && attempts < maxAttempts) {
-      await new Promise(resolve => setTimeout(resolve, 100));
-      attempts++;
-    }
-    
-    if (!user) {
+    if (!session?.user) {
       throw new Error('Foydalanuvchi tizimga kirmadi');
     }
     
-    console.log('🔄 Role yangilanmoqda:', role, 'User ID:', user.id);
-    await updateProfileRole(user.id, role);
+    console.log('🔄 Role yangilanmoqda:', role, 'User ID:', session.user.id);
+    await updateProfileRole(session.user.id, role);
     await refreshProfile();
     console.log('✅ Role yangilandi');
   };
