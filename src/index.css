@@ -131,3 +131,9 @@
 .object-contain { 
     border-radius: 50%;
 }
+
+.text-3xl {
+   font-family: "Kalam", cursive;
+   font-weight: 700;
+   font-style: normal;
+}
