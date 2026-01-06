@@ -3,7 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Lobster&display=swap');
 
 /* LETHEX Premium Dark Design System
    Pure black backgrounds with pink-to-cyan gradient accents
@@ -133,7 +133,8 @@
 }
 
 .text-3xl {
-   font-family: "Lobster", sans-serif;
-  font-weight: 400;
+   font-family: "Baloo 2", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
   font-style: normal;
 }
