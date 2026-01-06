@@ -178,7 +178,7 @@ export default function LoginPage() {
               />
             </div>
             <CardTitle className="text-3xl font-bold gradient-text">
-              LETHEX
+              Lethex
             </CardTitle>
             <CardDescription className="text-base">
               Raqamli aktivlar fondini boshqarish tizimi
