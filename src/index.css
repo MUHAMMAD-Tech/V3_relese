@@ -125,3 +125,7 @@
     transition: box-shadow 0.3s ease;
   }
 }
+
+.object-contain { 
+    border-radius: 50%;
+}
