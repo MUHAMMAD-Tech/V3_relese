@@ -65,6 +65,13 @@ export default function HolderPortfolioPage() {
 
   // Check if prices are loaded
   const pricesLoaded = Object.keys(prices).length > 0;
+  
+  // Debug logging
+  useEffect(() => {
+    console.log('🔍 Holder Portfolio - Prices:', prices);
+    console.log('🔍 Holder Portfolio - Prices loaded:', pricesLoaded);
+    console.log('🔍 Holder Portfolio - Prices count:', Object.keys(prices).length);
+  }, [prices, pricesLoaded]);
 
   if (!currentHolder) {
     return (

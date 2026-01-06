@@ -76,6 +76,13 @@ export default function HolderDashboardPage() {
 
   // Check if prices are loaded
   const pricesLoaded = Object.keys(prices).length > 0;
+  
+  // Debug logging
+  useEffect(() => {
+    console.log('🔍 Holder Dashboard - Prices:', prices);
+    console.log('🔍 Holder Dashboard - Prices loaded:', pricesLoaded);
+    console.log('🔍 Holder Dashboard - Prices count:', Object.keys(prices).length);
+  }, [prices, pricesLoaded]);
 
   const stats = [
     {
