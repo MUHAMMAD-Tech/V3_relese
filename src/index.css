@@ -157,3 +157,8 @@ body {
   font-weight: <weight>;
   font-style: normal;
 }
+
+.logh {
+   height: 20px;
+   width: 20px;
+}
