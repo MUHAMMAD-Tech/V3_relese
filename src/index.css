@@ -128,9 +128,7 @@
   }
 }
 
-.object-contain { 
-    border-radius: 50%;
-}
+ /* .object-contain { } */
 
 .text-3xl {
    font-family: "Baloo 2", sans-serif;
