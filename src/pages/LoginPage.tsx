@@ -188,7 +188,7 @@ export default function LoginPage() {
           <CardContent>
             <form onSubmit={handleLogin} className="space-y-6">
               <div className="space-y-2">
-                <label htmlFor="accessCode" className="text-sm font-medium text-foreground">
+                <label htmlFor="accessCode" className="text-sm font-medium text-foreground" gpf>
                   Kirish kodi
                 </label>
                 <Input
@@ -201,7 +201,7 @@ export default function LoginPage() {
                   className="h-12 text-base"
                   autoFocus
                 />
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-muted-foreground gpf">
                   Davom etish uchun admin yoki holder kirish kodini kiriting
                 </p>
               </div>
@@ -213,7 +213,7 @@ export default function LoginPage() {
               >
                 {loading ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin gpf" />
                     Tekshirilmoqda...
                   </>
                 ) : (
@@ -222,7 +222,7 @@ export default function LoginPage() {
               </Button>
             </form>
 
-            <div className="mt-6 text-center text-xs text-muted-foreground">
+            <div className="mt-6 text-center text-xs text-muted-foreground gpf">
               <p>Xavfsiz kirish • Real vaqtda kuzatish • Qo'lda tasdiqlash</p>
             </div>
           </CardContent>
@@ -232,7 +232,7 @@ export default function LoginPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}
-          className="mt-6 text-center text-sm text-muted-foreground"
+          className="mt-6 text-center text-sm text-muted-foreground gpf"
         >
           <p>© 2025 LETHEX. Barcha huquqlar himoyalangan.</p>
         </motion.div>
