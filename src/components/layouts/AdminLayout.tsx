@@ -85,7 +85,7 @@ export function AdminLayout() {
         <div className="flex flex-col h-full">
           {/* Logo */}
           <div className="p-6 border-b border-border">
-            <h1 className="text-2xl font-bold gradient-text">LETHEX</h1>
+            <h1 className="text-2xl font-bold gradient-text">Lethex</h1>
             <p className="text-xs text-muted-foreground mt-1">Admin paneli</p>
           </div>
 
