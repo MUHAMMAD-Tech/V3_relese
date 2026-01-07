@@ -172,7 +172,7 @@ export default function LoginPage() {
           <CardHeader className="space-y-4 text-center">
             <div className="mx-auto w-24 h-24 flex items-center justify-center">
               <img 
-                src="/lethex-logo.png" 
+                src="https://raw.githubusercontent.com/MUHAMMAD-Tech/Res-/refs/heads/MUHAMMAD-Tech/let/img/resLogoG.svg" 
                 alt="LETHEX Logo" 
                 className="w-full h-full object-contain"
               />
