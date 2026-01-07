@@ -173,8 +173,10 @@ export function HolderLayout() {
 
         {/* Mobile Header */}
         <header className="lg:hidden flex items-center justify-between p-4 border-b border-border bg-card">
+<div>
 <img  src="https://raw.githubusercontent.com/MUHAMMAD-Tech/Res-/refs/heads/MUHAMMAD-Tech/let/img/resLogoG.svg" className="logh" />
           <h1 className="hww text-xl font-bold gradient-text">ethex</h1>
+</div>
           <div className="flex items-center gap-2">
             <Header />
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
