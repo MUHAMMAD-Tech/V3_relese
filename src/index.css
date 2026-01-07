@@ -152,3 +152,10 @@
   font-weight: <weight>;
   font-style: normal;
 }
+
+body {
+  font-family: "Baloo 2", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+}
