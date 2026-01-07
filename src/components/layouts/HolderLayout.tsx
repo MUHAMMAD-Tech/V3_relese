@@ -172,7 +172,7 @@ export function HolderLayout() {
 
         {/* Mobile Header */}
         <header className="lg:hidden flex items-center justify-between p-4 border-b border-border bg-card">
-          <h1 className="text-xl font-bold gradient-text">LETHEX</h1>
+          <h1 className="text-xl font-bold gradient-text">Lethex</h1>
           <div className="flex items-center gap-2">
             <Header />
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
@@ -185,7 +185,7 @@ export function HolderLayout() {
               <div className="flex flex-col h-full">
                 {/* Logo */}
                 <div className="p-6 border-b border-border">
-                  <h1 className="text-2xl font-bold gradient-text">LETHEX</h1>
+                  <h1 className="text-2xl font-bold gradient-text">Lethex</h1>
                   <p className="text-xs text-muted-foreground mt-1">Fund Dashboard</p>
                 </div>
 
