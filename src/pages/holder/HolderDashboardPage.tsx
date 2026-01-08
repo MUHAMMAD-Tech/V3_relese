@@ -135,7 +135,15 @@ export default function HolderDashboardPage() {
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 {stat.title}
               </CardTitle>
-              <stat.icon className={`h-5 w-5 ${stat.color}`} />
+              {stat.icon ? (
+  <stat.icon className={`h-5 w-5 ${stat.color}`} />
+) : stat.iconUrl ? (
+  <img
+    src={stat.iconUrl}
+    alt={stat.title}
+    className="h-5 w-5"
+  />
+) : null}
             </CardHeader>
             <CardContent>
               {loading ? (
