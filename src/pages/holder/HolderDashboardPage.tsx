@@ -102,7 +102,7 @@ export default function HolderDashboardPage() {
       value: pricesLoaded
         ? `${totalValueKGS.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} KGS`
         : 'Yuklanmoqda...',
-      icon: TrendingUp,
+      iconUrl: '/icons/resIconSom.svg',
       color: 'text-success',
     },
     {
