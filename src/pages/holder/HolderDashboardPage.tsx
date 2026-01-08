@@ -2,6 +2,7 @@
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Wallet, TrendingUp, Clock } from 'lucide-react';
 import { useAppStore } from '@/store/appStore';
 import { getAssetsByHolderId, getTransactionsByHolderId } from '@/db/api';
 import type { AssetWithToken, TransactionWithDetails } from '@/types/types';
@@ -88,15 +89,14 @@ export default function HolderDashboardPage() {
       title: 'Jami Aktivlar',
       value: assets.length,
       icon: 'https://raw.githubusercontent.com/MUHAMMAD-Tech/Res-/refs/heads/MUHAMMAD-Tech/let/cryptoImg/resIconBtc.svg',
-      color: '#F7931A',
-      iconClass: 'iconW',
+      color: 'text-primary',
     },
     {
       title: 'Portfolio Qiymati (USDT)',
       value: pricesLoaded 
         ? `$${totalValueUSDT.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
         : 'Yuklanmoqda...',
-      icon: 'https://raw.githubusercontent.com/MUHAMMAD-Tech/Res-/refs/heads/MUHAMMAD-Tech/let/cryptoImg/resIconChart.svg',
+      icon: TrendingUp,
       color: 'text-success',
     },
     {
@@ -104,13 +104,13 @@ export default function HolderDashboardPage() {
       value: pricesLoaded
         ? `${totalValueKGS.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} KGS`
         : 'Yuklanmoqda...',
-      icon: 'https://raw.githubusercontent.com/MUHAMMAD-Tech/Res-/refs/heads/MUHAMMAD-Tech/let/cryptoImg/resIconKGS.svg',
+      icon: TrendingUp,
       color: 'text-success',
     },
     {
       title: 'Kutilayotgan So\'rovlar',
       value: pendingCount,
-      icon: 'https://raw.githubusercontent.com/MUHAMMAD-Tech/Res-/refs/heads/MUHAMMAD-Tech/let/cryptoImg/resIconClock.svg',
+      icon: Clock,
       color: 'text-warning',
     },
   ];
@@ -135,17 +135,7 @@ export default function HolderDashboardPage() {
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 {stat.title}
               </CardTitle>
-              {/* Icon uchun img tag */}
-              <img 
-                src={stat.icon} 
-                alt={stat.title}
-                className={`h-5 w-5 ${stat.color}`}
-                onError={(e) => {
-                  // Agar rasm yuklanmasa, fallback icon
-                  e.target.onerror = null;
-                  e.target.src = '/icons/fallback.svg';
-                }}
-              />
+              <stat.icon className={`h-5 w-5 ${stat.color}`} />
             </CardHeader>
             <CardContent>
               {loading ? (
@@ -171,11 +161,7 @@ export default function HolderDashboardPage() {
               href="/holder/portfolio"
               className="p-4 rounded-lg bg-secondary/50 hover:bg-accent transition-colors text-center"
             >
-              <img 
-                src="https://raw.githubusercontent.com/MUHAMMAD-Tech/Res-/refs/heads/MUHAMMAD-Tech/let/cryptoImg/resIconBtc.svg"
-                alt="Portfolio"
-                className="h-8 w-8 mx-auto mb-2"
-              />
+              <Wallet className="h-8 w-8 mx-auto mb-2 text-primary" />
               <p className="font-semibold text-foreground">View Portfolio</p>
               <p className="text-sm text-muted-foreground mt-1">See all your assets</p>
             </a>
@@ -183,11 +169,7 @@ export default function HolderDashboardPage() {
               href="/holder/transactions"
               className="p-4 rounded-lg bg-secondary/50 hover:bg-accent transition-colors text-center"
             >
-              <img 
-                src="https://raw.githubusercontent.com/MUHAMMAD-Tech/Res-/refs/heads/MUHAMMAD-Tech/let/cryptoImg/resIconTransaction.svg"
-                alt="Transactions"
-                className="h-8 w-8 mx-auto mb-2"
-              />
+              <TrendingUp className="h-8 w-8 mx-auto mb-2 text-primary" />
               <p className="font-semibold text-foreground">New Transaction</p>
               <p className="text-sm text-muted-foreground mt-1">Swap, buy, or sell</p>
             </a>
@@ -195,11 +177,7 @@ export default function HolderDashboardPage() {
               href="/holder/history"
               className="p-4 rounded-lg bg-secondary/50 hover:bg-accent transition-colors text-center"
             >
-              <img 
-                src="https://raw.githubusercontent.com/MUHAMMAD-Tech/Res-/refs/heads/MUHAMMAD-Tech/let/cryptoImg/resIconHistory.svg"
-                alt="History"
-                className="h-8 w-8 mx-auto mb-2"
-              />
+              <Clock className="h-8 w-8 mx-auto mb-2 text-primary" />
               <p className="font-semibold text-foreground">View History</p>
               <p className="text-sm text-muted-foreground mt-1">Transaction history</p>
             </a>
@@ -208,4 +186,4 @@ export default function HolderDashboardPage() {
       </Card>
     </div>
   );
-}
+} 
