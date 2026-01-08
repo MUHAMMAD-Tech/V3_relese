@@ -108,7 +108,7 @@ export default function HolderDashboardPage() {
     {
       title: 'Kutilayotgan So\'rovlar',
       value: pendingCount,
-      icon: Clock,
+      iconUrl: '/icons/resIconH.svg',
       color: 'text-warning',
     },
   ];
@@ -183,7 +183,7 @@ export default function HolderDashboardPage() {
               href="/holder/history"
               className="p-4 rounded-lg bg-secondary/50 hover:bg-accent transition-colors text-center"
             >
-              <Clock className="h-8 w-8 mx-auto mb-2 text-primary" />
+              <img src="/icons/resIconH.svg" className="h-8 w-8 mx-auto mb-2 text-primary" />
               <p className="font-semibold text-foreground">View History</p>
               <p className="text-sm text-muted-foreground mt-1">Transaction history</p>
             </a>
