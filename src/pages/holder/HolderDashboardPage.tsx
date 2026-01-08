@@ -88,7 +88,7 @@ export default function HolderDashboardPage() {
     {
       title: 'Jami Aktivlar',
       value: assets.length,
-      icon: 'https://raw.githubusercontent.com/MUHAMMAD-Tech/Res-/refs/heads/MUHAMMAD-Tech/let/cryptoImg/resIconBtc.svg',
+      icon: Wallet,
       color: 'text-primary',
     },
     {
