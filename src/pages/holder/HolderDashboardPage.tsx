@@ -89,6 +89,7 @@ export default function HolderDashboardPage() {
       value: assets.length,
       icon: 'https://raw.githubusercontent.com/MUHAMMAD-Tech/Res-/refs/heads/MUHAMMAD-Tech/let/cryptoImg/resIconBtc.svg',
       color: 'text-primary',
+      iconClass: 'icon-wallet',
     },
     {
       title: 'Portfolio Qiymati (USDT)',
