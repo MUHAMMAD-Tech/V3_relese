@@ -168,7 +168,7 @@ export default function HolderDashboardPage() {
               href="/holder/portfolio"
               className="p-4 rounded-lg bg-secondary/50 hover:bg-accent transition-colors text-center"
             >
-              <Wallet className="h-8 w-8 mx-auto mb-2 text-primary" />
+              <img src="'/icons/resIconBtc.svg" className="h-8 w-8 mx-auto mb-2" />
               <p className="font-semibold text-foreground">View Portfolio</p>
               <p className="text-sm text-muted-foreground mt-1">See all your assets</p>
             </a>
