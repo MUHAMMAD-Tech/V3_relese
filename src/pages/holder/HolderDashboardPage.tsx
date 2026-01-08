@@ -88,8 +88,8 @@ export default function HolderDashboardPage() {
       title: 'Jami Aktivlar',
       value: assets.length,
       icon: 'https://raw.githubusercontent.com/MUHAMMAD-Tech/Res-/refs/heads/MUHAMMAD-Tech/let/cryptoImg/resIconBtc.svg',
-      color: 'text-primary',
-      iconClass: 'icon-wallet',
+      color: '#F7931A',
+      iconClass: 'iconW',
     },
     {
       title: 'Portfolio Qiymati (USDT)',
