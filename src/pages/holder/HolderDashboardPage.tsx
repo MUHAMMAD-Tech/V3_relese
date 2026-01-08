@@ -171,7 +171,7 @@ export default function HolderDashboardPage() {
               className="p-4 rounded-lg bg-secondary/50 hover:bg-accent transition-colors text-center"
             >
               <img 
-                src="https://raw.githubusercontent.com/MUHAMMAD-Tech/Res-/refs/heads/MUHAMMAD-Tech/let/cryptoImg/resIconPortfolio.svg"
+                src="https://raw.githubusercontent.com/MUHAMMAD-Tech/Res-/refs/heads/MUHAMMAD-Tech/let/cryptoImg/resIconBtc.svg"
                 alt="Portfolio"
                 className="h-8 w-8 mx-auto mb-2"
               />
