@@ -87,9 +87,8 @@ export default function HolderDashboardPage() {
   const stats = [
     {
       title: 'Jami Aktivlar',
-      value: assets.length,
-iconUrl:'https://raw.githubusercontent.com/MUHAMMAD-Tech/Res-/refs/heads/MUHAMMAD-Tech/let/cryptoImg/resIconBtc.svg',
-      color: 'text-primary',
+      value: assets.length ,
+      iconUrl: '/icons/resIconBtc.svg',
     },
     {
       title: 'Portfolio Qiymati (USDT)',
