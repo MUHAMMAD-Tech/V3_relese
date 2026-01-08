@@ -95,8 +95,7 @@ export default function HolderDashboardPage() {
       value: pricesLoaded 
         ? `$${totalValueUSDT.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
         : 'Yuklanmoqda...',
-      icon: TrendingUp,
-      color: 'text-success',
+      iconUrl: '/icons/resIconDollor.svg',
     },
     {
       title: 'Portfolio Qiymati (KGS)',
