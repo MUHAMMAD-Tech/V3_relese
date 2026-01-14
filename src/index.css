@@ -171,3 +171,10 @@ body {
 .flass {
    display: flex;
 }
+
+@media (max-width: 600px) {
+    .flex{
+    width: 600px
+    
+}
+}
