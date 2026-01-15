@@ -150,7 +150,7 @@ export default function AdminHoldersPage() {
   };
 
   return (
-    <div className="min-h-screen pb-24 space-y-8">
+    <div className="holders-page space-y-8">
       {/* Header */}
       <div className="flex flex-col @md:flex-row @md:items-center @md:justify-between gap-4">
         <div>
