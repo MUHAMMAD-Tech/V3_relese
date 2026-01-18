@@ -172,9 +172,6 @@ body {
    display: flex;
 }
 
-@media (max-width: 768px) {
-  .holders-page {
-    min-height: calc(var(--vh, 1vh) * 100);
-    padding-bottom: 6rem;
-  }
+.btn-tog {
+   background: transparent;
 }
