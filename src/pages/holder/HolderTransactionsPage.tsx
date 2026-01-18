@@ -447,7 +447,7 @@ export default function HolderTransactionsPage() {
                           Sell so'rovini yuborganingizdan keyin, admin bilan Telegram orqali bog'lanishingiz kerak.
                         </p>
   <Button
-            className="btn-telegram inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white font-medium hover:opacity-90 transition-opacity shadow-sm"
+            className="btn-telegram"
             onClick={() => window.open('https://t.me/youradminusername', '_blank')}
           >
             <svg
@@ -473,7 +473,7 @@ export default function HolderTransactionsPage() {
                 fill="white"
               />
             </svg>
-            Telegramda Admin bilan bog'lanish
+            
           </Button>
                       </div>
                     </div>
