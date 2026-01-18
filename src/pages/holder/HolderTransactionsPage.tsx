@@ -446,6 +446,7 @@ export default function HolderTransactionsPage() {
                         <p className="text-muted-foreground">
                           Sell so'rovini yuborganingizdan keyin, admin bilan Telegram orqali bog'lanishingiz kerak.
                         </p>
+<button className="btn_sell"></button>
                       </div>
                     </div>
                   </CardContent>
