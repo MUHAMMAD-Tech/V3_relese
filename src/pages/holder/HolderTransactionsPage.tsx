@@ -442,39 +442,52 @@ export default function HolderTransactionsPage() {
                     <div className="flex items-start gap-3">
                       <AlertCircle className="h-5 w-5 text-warning mt-0.5" />
                       <div className="text-sm">
-                        <p className="font-semibold text-warning mb-1">Telegram orqali bog'laning</p>
+                        <p className="font-semibold text-warning mb-1">Telegram orqali bog'laning<Button
+  className="flex items-center justify-center rounded-full p-0 overflow-hidden hover:opacity-90 transition-opacity"
+  style={{
+    width: '45px',
+    height: '45px',
+    background: 'transparent',
+    border: 'none',
+    padding: 0,
+    minWidth: '45px',
+  }}
+  onClick={() => window.open('https://t.me/youradminusername', '_blank')}
+  title="Telegram Admin"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 124 124"
+    fill="none"
+    style={{ width: '45px', height: '45px' }}
+  >
+    <defs>
+      <linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#FF00FF" />
+        <stop offset="100%" stopColor="#00D4FF" />
+      </linearGradient>
+    </defs>
+    <rect width="124" height="124" rx="62" fill="url(#telegramGradient)" />
+    <path
+      d="M19.375 36.7818V100.625C19.375 102.834 21.1659 104.625 23.375 104.625H87.2181C90.7818 104.625 92.5664 100.316 90.0466 97.7966L26.2034 33.9534C23.6836 31.4336 19.375 33.2182 19.375 36.7818Z"
+      fill="white"
+    />
+    <circle cx="63.2109" cy="37.5391" r="18.1641" fill="black" />
+    <rect
+      opacity="0.4"
+      x="81.1328"
+      y="80.7198"
+      width="17.5687"
+      height="17.3876"
+      rx="4"
+      transform="rotate(-45 81.1328 80.7198)"
+      fill="#FDBA74"
+    />
+  </svg>
+</Button></p>
                         <p className="text-muted-foreground">
                           Sell so'rovini yuborganingizdan keyin, admin bilan Telegram orqali bog'lanishingiz kerak.
                         </p>
-  <Button
-            className="btn-tog"
-            onClick={() => window.open('https://t.me/Lethex_c', '_blank')}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="120"
-              height="120"
-              viewBox="0 0 24 24"
-              fill="none"
-              className="mr-1"
-            >
-              <defs>
-                <linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#FF00FF" />
-                  <stop offset="100%" stopColor="#00D4FF" />
-                </linearGradient>
-              </defs>
-              <path
-                d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
-                fill="url(#telegramGradient)"
-              />
-              <path
-                d="M16.4038 8.5L15.7122 15.2471C15.7122 15.2471 15.4656 16.0234 14.7446 15.7937L10.5 12.5L14.5 9L9.5 11.5L7.5 10.75L7.11675 9.24981C7.11675 9.24981 6.98025 8.5 7.75 8.5L16.4038 8.5Z"
-                fill="white"
-              />
-            </svg>
-            
-          </Button>
                       </div>
                     </div>
                   </CardContent>
