@@ -18,7 +18,7 @@ export default function HolderTransactionsPage() {
   const [assets, setAssets] = useState<Asset[]>([]);
   const [tokens, setTokens] = useState<Token[]>([]);
   const [activeTab, setActiveTab] = useState('swap');
-  
+
   // Swap state
   const [fromToken, setFromToken] = useState<Token | null>(null);
   const [toToken, setToToken] = useState<Token | null>(null);
@@ -47,7 +47,7 @@ export default function HolderTransactionsPage() {
 
   const loadData = async () => {
     if (!currentHolder) return;
-    
+
     setLoading(true);
     const [assetsData, tokensData] = await Promise.all([
       getAssetsByHolder(currentHolder.id),
@@ -442,49 +442,37 @@ export default function HolderTransactionsPage() {
                     <div className="flex items-start gap-3">
                       <AlertCircle className="h-5 w-5 text-warning mt-0.5" />
                       <div className="text-sm">
-                        <p className="font-semibold text-warning mb-1">Telegram orqali bog'laning<Button
-  className="flex items-center justify-center rounded-full p-0 overflow-hidden hover:opacity-90 transition-opacity"
+                        <p className="font-semibold text-warning mb-1">Telegram orqali bog'laning</p>
+                      <div className="teg_btn">
+                        <Button
+  className="flex items-center justify-center rounded-full p-0 overflow-hidden hover:opacity-90 transition-opacity hover:scale-105 active:scale-95"
   style={{
     width: '45px',
     height: '45px',
-    background: 'transparent',
+    background: 'linear-gradient(135deg, #FF00FF 0%, #00D4FF 100%)',
     border: 'none',
     padding: 0,
     minWidth: '45px',
+    cursor: 'pointer',
   }}
   onClick={() => window.open('https://t.me/youradminusername', '_blank')}
   title="Telegram Admin"
 >
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 124 124"
-    fill="none"
-    style={{ width: '45px', height: '45px' }}
-  >
-    <defs>
-      <linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#FF00FF" />
-        <stop offset="100%" stopColor="#00D4FF" />
-      </linearGradient>
-    </defs>
-    <rect width="124" height="124" rx="62" fill="url(#telegramGradient)" />
-    <path
-      d="M19.375 36.7818V100.625C19.375 102.834 21.1659 104.625 23.375 104.625H87.2181C90.7818 104.625 92.5664 100.316 90.0466 97.7966L26.2034 33.9534C23.6836 31.4336 19.375 33.2182 19.375 36.7818Z"
-      fill="white"
-    />
-    <circle cx="63.2109" cy="37.5391" r="18.1641" fill="black" />
-    <rect
-      opacity="0.4"
-      x="81.1328"
-      y="80.7198"
-      width="17.5687"
-      height="17.3876"
-      rx="4"
-      transform="rotate(-45 81.1328 80.7198)"
-      fill="#FDBA74"
-    />
-  </svg>
-</Button></p>
+  <div className="w-6 h-6 flex items-center justify-center">
+    <svg
+      viewBox="0 0 48 48"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-full h-full"
+    >
+      <path
+        d="M41.4193 7.30899C41.4193 7.30899 45.3046 5.79399 44.9808 9.47328C44.8729 10.9883 43.9016 16.2908 43.1461 22.0262L40.5559 39.0159C40.5559 39.0159 40.3401 41.5048 38.3974 41.9377C36.4547 42.3705 33.5408 40.4227 33.0011 39.9898C32.5694 39.6652 24.9068 34.7955 22.2086 32.4148C21.4531 31.7655 20.5897 30.4669 22.3165 28.9519L33.6487 18.1305C34.9438 16.8319 36.2389 13.8019 30.8426 17.4812L15.7331 27.7616C15.7331 27.7616 14.0063 28.8437 10.7686 27.8698L3.75342 25.7055C3.75342 25.7055 1.16321 24.0823 5.58815 22.459C16.3807 17.3729 29.6555 12.1786 41.4193 7.30899Z"
+        fill="white"
+      />
+    </svg>
+  </div>
+</Button>
+                      </div>
                         <p className="text-muted-foreground">
                           Sell so'rovini yuborganingizdan keyin, admin bilan Telegram orqali bog'lanishingiz kerak.
                         </p>
