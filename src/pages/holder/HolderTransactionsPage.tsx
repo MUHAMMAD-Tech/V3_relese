@@ -447,12 +447,12 @@ export default function HolderTransactionsPage() {
                         <Button
   className="flex items-center justify-center rounded-full p-0 overflow-hidden hover:opacity-90 transition-opacity hover:scale-105 active:scale-95"
   style={{
-    width: '45px',
-    height: '45px',
+    width: '25px',
+    height: '25px',
     background: 'linear-gradient(135deg, #FF00FF 0%, #00D4FF 100%)',
     border: 'none',
     padding: 0,
-    minWidth: '45px',
+    minWidth: '25px',
     cursor: 'pointer',
   }}
   onClick={() => window.open('https://t.me/youradminusername', '_blank')}
