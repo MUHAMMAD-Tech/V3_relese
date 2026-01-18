@@ -446,7 +446,35 @@ export default function HolderTransactionsPage() {
                         <p className="text-muted-foreground">
                           Sell so'rovini yuborganingizdan keyin, admin bilan Telegram orqali bog'lanishingiz kerak.
                         </p>
-<button className="btn_sell">Telegram</button>
+  <Button
+            className="btn-telegram inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white font-medium hover:opacity-90 transition-opacity shadow-sm"
+            onClick={() => window.open('https://t.me/youradminusername', '_blank')}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              className="mr-1"
+            >
+              <defs>
+                <linearGradient id="telegramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#FF00FF" />
+                  <stop offset="100%" stopColor="#00D4FF" />
+                </linearGradient>
+              </defs>
+              <path
+                d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                fill="url(#telegramGradient)"
+              />
+              <path
+                d="M16.4038 8.5L15.7122 15.2471C15.7122 15.2471 15.4656 16.0234 14.7446 15.7937L10.5 12.5L14.5 9L9.5 11.5L7.5 10.75L7.11675 9.24981C7.11675 9.24981 6.98025 8.5 7.75 8.5L16.4038 8.5Z"
+                fill="white"
+              />
+            </svg>
+            Telegramda Admin bilan bog'lanish
+          </Button>
                       </div>
                     </div>
                   </CardContent>
