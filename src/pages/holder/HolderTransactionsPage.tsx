@@ -455,7 +455,7 @@ export default function HolderTransactionsPage() {
     minWidth: '25px',
     cursor: 'pointer',
   }}
-  onClick={() => window.open('https://t.me/youradminusername', '_blank')}
+  onClick={() => window.open('https://t.me/Lethex_c', '_blank')}
   title="Telegram Admin"
 >
   <div className="w-6 h-6 flex items-center justify-center">
